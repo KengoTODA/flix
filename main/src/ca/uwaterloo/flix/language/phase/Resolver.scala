@@ -1092,6 +1092,11 @@ object Resolver extends Phase[NamedAst.Root, ResolvedAst.Root] {
           for {
             e <- Expressions.resolve(exp, tenv0, taenv, ns0, root)
           } yield ResolvedAst.Predicate.Body.Guard(e, loc)
+
+        case NamedAst.Predicate.Body.Loop(varSyms, exp, loc) =>
+          for {
+            e <- Expressions.resolve(exp, tenv0, taenv, ns0, root)
+          } yield ResolvedAst.Predicate.Body.Loop(varSyms, e, loc)
       }
     }
 
