@@ -275,6 +275,7 @@ object Linter extends Phase[TypedAst.Root, TypedAst.Root] {
   private def visitBody(body0: Predicate.Body, lint0: Lint)(implicit flix: Flix): List[LinterError] = body0 match {
     case Body.Atom(_, _, _, _, _, _) => Nil
     case Body.Guard(exp, _) => visitExp(exp, lint0)
+    case Body.Loop(_, exp, _) => visitExp(exp, lint0)
   }
 
   /**
@@ -1028,6 +1029,7 @@ object Linter extends Phase[TypedAst.Root, TypedAst.Root] {
     private def apply(body0: Predicate.Body): Predicate.Body = body0 match {
       case Body.Atom(pred, den, polarity, terms, tpe, loc) => Body.Atom(pred, den, polarity, terms.map(apply), tpe, loc)
       case Body.Guard(exp, loc) => Body.Guard(apply(exp), loc)
+      case Body.Loop(varSyms, exp, loc) => Body.Loop(varSyms, apply(exp), loc)
     }
 
     /**
