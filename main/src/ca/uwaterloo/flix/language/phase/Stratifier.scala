@@ -663,6 +663,7 @@ object Stratifier extends Phase[Root, Root] {
                 case Polarity.Negative => (pos, neg + ((pred, loc)))
               }
               case Body.Guard(_, _) => (pos, neg)
+              case Body.Loop(_, _, _) => (pos, neg)
             }
           }
           val edge = MultiEdge(headSym, pos, neg)
