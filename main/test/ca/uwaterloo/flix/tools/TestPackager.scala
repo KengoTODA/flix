@@ -4,6 +4,8 @@ import ca.uwaterloo.flix.util.Options
 import org.scalatest.FunSuite
 
 import java.nio.file.Files
+import java.util.zip.ZipFile
+import scala.util.Using
 
 class TestPackager extends FunSuite {
 
@@ -39,6 +41,19 @@ class TestPackager extends FunSuite {
     val p = Files.createTempDirectory(ProjectPrefix)
     Packager.init(p, DefaultOptions)
     Packager.buildPkg(p, DefaultOptions)
+  }
+
+  test("build-pkg-with-notice") {
+    val p = Files.createTempDirectory(ProjectPrefix)
+    Packager.init(p, DefaultOptions)
+    Files.createFile(p.resolve("NOTICE"))
+    Packager.buildPkg(p, DefaultOptions)
+
+    val packagePath = p.resolve("T.fpkg")
+    val zipEntry = Using(new ZipFile(packagePath.toFile)) { zipFile =>
+      zipFile.getEntry("NOTICE")
+    }
+    assert(zipEntry.isSuccess && zipEntry.get != null, "NOTICE file not found in %s".format(packagePath.toString))
   }
 
   test("benchmark") {
