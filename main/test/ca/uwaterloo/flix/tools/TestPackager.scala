@@ -49,7 +49,8 @@ class TestPackager extends FunSuite {
     Files.createFile(p.resolve("NOTICE"))
     Packager.buildPkg(p, DefaultOptions)
 
-    val packagePath = p.resolve("T.fpkg")
+    val packageName = p.toAbsolutePath.getParent.getFileName.toString
+    val packagePath = p.resolve(packageName + ".fpkg")
     val zipEntry = Using(new ZipFile(packagePath.toFile)) { zipFile =>
       zipFile.getEntry("NOTICE")
     }

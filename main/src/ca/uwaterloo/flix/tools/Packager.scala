@@ -301,6 +301,12 @@ object Packager {
     addToZip(zip, "LICENSE.md", getLicenseFile(p))
     addToZip(zip, "README.md", getReadmeFile(p))
 
+    // Add optional resources.
+    val notice = getNoticeFile(p)
+    if (Files.exists(notice) && Files.isReadable(notice)) {
+      addToZip(zip, "NOTICE", notice)
+    }
+
     // Add all source files.
     for (sourceFile <- getAllFiles(getSourceDirectory(p))) {
       val name = p.relativize(sourceFile).toString
@@ -435,6 +441,12 @@ object Packager {
     * Returns the path to the LICENSE file relative to the given path `p`.
     */
   private def getLicenseFile(p: Path): Path = p.resolve("./LICENSE.md").normalize()
+
+  /**
+   * Returns the path to the NOTICE file relative to the given path `p`.
+   * @see <a href="https://www.apache.org/licenses/LICENSE-2.0.html#redistribution">the NOTICE file described in §4.4 of the Apache License version 2.0</a>
+   */
+  private def getNoticeFile(p: Path): Path = p.resolve("./NOTICE").normalize()
 
   /**
     * Returns the path to the README file relative to the given path `p`.
