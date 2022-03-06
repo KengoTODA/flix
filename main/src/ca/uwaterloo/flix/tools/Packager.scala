@@ -273,7 +273,7 @@ object Packager {
     }
 
     // Close the zip file.
-    zip.finish()
+    zip.close()
     ().toOk
   }
 
@@ -314,7 +314,7 @@ object Packager {
     }
 
     // Close the zip file.
-    zip.finish()
+    zip.close()
     ().toOk
   }
 
@@ -384,6 +384,7 @@ object Packager {
       }
     }
 
+    zip.close()
     result.toList
   }
 
@@ -482,9 +483,7 @@ object Packager {
   private def newFile(p: Path)(s: String): Unit = {
     if (Files.exists(p)) throw InternalCompilerException(s"Path '$p' already exists.")
 
-    val writer = Files.newBufferedWriter(p)
-    writer.write(s)
-    writer.close()
+    Files.writeString(p, s, StandardOpenOption.CREATE_NEW)
   }
 
   /**
