@@ -17,17 +17,13 @@ dependencies {
 
     implementation 'org.java-websocket:Java-WebSocket:1.3.9' // 05a256a41372bf56ffdb2e335b63d74d
     implementation 'org.jline:jline:3.5.1' // 4c20d2879ed2bd75a0771ce29e89f6b0
-    implementation 'org.json4s:json4s-ast_2.13:3.5.5' // 571a917e27c172a163daa9905c9dcfd4
     implementation 'org.json4s:json4s-core_2.13:3.5.5' // e1a3e6d70adf0a73cb9e8b66cb49308f
     implementation 'org.json4s:json4s-native_2.13:3.5.5' // 0f2ce59610c538a94bb77f9d7c66b42c
     implementation 'org.ow2.asm:asm:9.2' // 8f184dce9b1bedc675d4a3640d43ddf0
     implementation 'org.parboiled:parboiled_2.13:2.2.1' // 5f4b60cb30a6bcc0a78efea2b9421945
-    implementation 'org.scalactic:scalactic_2.13:3.0.8' // cfbc0b1d982140b943ecdcec751ed5c9
     implementation 'org.scalatest:scalatest_2.13:3.0.8' // df7a5054753d6185e09c03b1a301d480
     implementation 'org.scala-lang.modules:scala-parallel-collections_2.13:0.2.0' // de4baebed21d6541e675f7dfce971b34
-    implementation 'org.scala-lang.modules:scala-xml_2.13:1.2.0' // 230830b045cb0af37b42b71d90960f9e
     implementation 'com.github.scopt:scopt_2.13:4.0.1' // 512829d5879da59ac71d581f4b993074
-    implementation 'com.chuusai:shapeless_2.13:2.3.3' // b38efd3f78bd2989348e4d42afafea27
 }
 
 tasks.withType(ScalaCompile) {
