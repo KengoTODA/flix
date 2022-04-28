@@ -44,6 +44,21 @@ class TestPackager extends FunSuite {
     assert(jarPath.getFileName.toString.startsWith(ProjectPrefix))
   }
 
+  test("build-jar generates ZIP entries with fixed time") {
+    val p = Files.createTempDirectory(ProjectPrefix)
+    Packager.init(p, DefaultOptions)
+    Packager.buildJar(p, DefaultOptions)
+
+    val packageName = p.getFileName.toString
+    val packagePath = p.resolve(packageName + ".jar")
+    val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    for (e <- new ZipFile(packagePath.toFile).entries().asScala) {
+      val time = new Date(e.getTime)
+      val formatted = format.format(time)
+      assert(formatted.equals("1980-02-01 00:00:00"))
+    }
+  }
+
   test("build-pkg") {
     val p = Files.createTempDirectory(ProjectPrefix)
     Packager.init(p, DefaultOptions)
@@ -62,12 +77,11 @@ class TestPackager extends FunSuite {
 
     val packageName = p.getFileName.toString
     val packagePath = p.resolve(packageName + ".fpkg")
-    val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S")
+    val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     for (e <- new ZipFile(packagePath.toFile).entries().asScala) {
       val time = new Date(e.getTime)
       val formatted = format.format(time)
-      System.err.printf("Timestamp of %s is %s%n", e.getName, formatted)
-      assert(formatted.equals("1980-02-01 00:00:00.0"))
+      assert(formatted.equals("1980-02-01 00:00:00"))
     }
   }
 
