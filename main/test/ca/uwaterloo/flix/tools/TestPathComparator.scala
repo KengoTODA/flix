@@ -44,6 +44,7 @@ class TestPathComparator extends FunSuite {
   test("complex case") {
     val comparator = new PathComparator()
     val list = Array(
+      Paths.get("2", "d.txt"),
       Paths.get("1", "b.txt"),
       Paths.get("1", "a.txt"),
       Paths.get("2", "c.txt"),
@@ -53,7 +54,11 @@ class TestPathComparator extends FunSuite {
       Paths.get("1", "a.txt"),
       Paths.get("1", "b.txt"),
       Paths.get("2", "3", "c.txt"),
-      Paths.get("2", "c.txt")
+      Paths.get("2", "c.txt"),
+      Paths.get("2", "d.txt")
     )))
+  }
+  test("test can fail") {
+    assert(condition = false)
   }
 }
