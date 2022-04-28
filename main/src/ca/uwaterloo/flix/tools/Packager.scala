@@ -27,8 +27,7 @@ import ca.uwaterloo.flix.util._
 import java.io.{File, PrintWriter}
 import java.nio.file._
 import java.nio.file.attribute.BasicFileAttributes
-import java.util.Calendar
-import java.util.GregorianCalendar
+import java.util.{Calendar, Comparator, GregorianCalendar}
 import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
 import scala.collection.mutable
 import scala.util.{Failure, Success, Using}
@@ -266,7 +265,7 @@ object Packager {
       addToZip(zip, "META-INF/MANIFEST.MF", manifest.getBytes)
 
       // Add all class files.
-      for (buildFile <- getAllFiles(getBuildDirectory(p)).sorted) { // FIXME this sort() is platform specific
+      for (buildFile <- getAllFiles(getBuildDirectory(p)).sorted(new PathComparator())) {
         val fileName = getBuildDirectory(p).relativize(buildFile).toString
         val fileNameWithSlashes = fileName.replace('\\', '/')
         addToZip(zip, fileNameWithSlashes, buildFile)
@@ -304,7 +303,7 @@ object Packager {
       addToZip(zip, "README.md", getReadmeFile(p))
 
       // Add all source files.
-      for (sourceFile <- getAllFiles(getSourceDirectory(p)).sorted) { // FIXME this sort() is platform specific
+      for (sourceFile <- getAllFiles(getSourceDirectory(p)).sorted(new PathComparator())) {
         val name = p.relativize(sourceFile).toString
         addToZip(zip, name, sourceFile)
       }
@@ -550,6 +549,24 @@ object Packager {
     override def visitFile(file: Path, attrs: BasicFileAttributes): FileVisitResult = {
       result += file
       FileVisitResult.CONTINUE
+    }
+  }
+
+  /**
+    * The comparator which orders Path objects by a non platform specific method.
+    */
+  class PathComparator extends Ordering[Path] {
+    override def compare(l: Path, r: Path): Int = {
+      assert(l.isAbsolute == r.isAbsolute)
+      val fs = FileSystems.getDefault
+      val lElements = l.toString.split(fs.getSeparator)
+      val rElements = r.toString.split(fs.getSeparator)
+
+      for (p <- lElements.zip(rElements)) {
+        val r = p._1.compareTo(p._2)
+        if (r != 0) return r
+      }
+      lElements.length.compareTo(rElements.length)
     }
   }
 }
