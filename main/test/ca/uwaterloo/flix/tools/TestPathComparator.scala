@@ -59,6 +59,6 @@ class TestPathComparator extends FunSuite {
     )))
   }
   test("test can fail") {
-    assert(condition = false)
+    assert(false)
   }
 }
