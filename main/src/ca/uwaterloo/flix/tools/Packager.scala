@@ -557,7 +557,7 @@ object Packager {
     */
   class PathComparator extends Ordering[Path] {
     override def compare(l: Path, r: Path): Int = {
-      assert(l.isAbsolute == r.isAbsolute)
+      require(l.isAbsolute == r.isAbsolute)
       val fs = FileSystems.getDefault
       val lElements = l.toString.split(fs.getSeparator)
       val rElements = r.toString.split(fs.getSeparator)
