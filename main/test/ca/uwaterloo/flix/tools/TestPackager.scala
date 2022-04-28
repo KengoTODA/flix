@@ -4,6 +4,7 @@ import ca.uwaterloo.flix.util.Options
 import org.scalatest.FunSuite
 
 import java.nio.file.Files
+import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.zip.{ZipEntry, ZipFile}
 import scala.jdk.CollectionConverters.EnumerationHasAsScala
@@ -61,9 +62,12 @@ class TestPackager extends FunSuite {
 
     val packageName = p.getFileName.toString
     val packagePath = p.resolve(packageName + ".fpkg")
+    val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S")
     for (e <- new ZipFile(packagePath.toFile).entries().asScala) {
       val time = new Date(e.getTime)
-      assert(time.formatted("yyyy-MM-dd").equals("1990-02-01"))
+      val formatted = format.format(time)
+      System.err.printf("Timestamp of %s is %s%n", e.getName, formatted)
+      assert(formatted.equals("1980-02-01 00:00:00.0"))
     }
   }
 
