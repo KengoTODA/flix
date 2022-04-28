@@ -30,6 +30,7 @@ import java.nio.file.attribute.BasicFileAttributes
 import java.util.{Calendar, GregorianCalendar}
 import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
 import scala.collection.mutable
+import scala.jdk.CollectionConverters._
 import scala.util.{Failure, Success, Using}
 
 /**
@@ -558,15 +559,15 @@ object Packager {
   class PathComparator extends Ordering[Path] {
     override def compare(l: Path, r: Path): Int = {
       require(l.isAbsolute == r.isAbsolute)
-      val fs = FileSystems.getDefault
-      val lElements = l.toString.split(fs.getSeparator)
-      val rElements = r.toString.split(fs.getSeparator)
 
-      for (p <- lElements.zip(rElements)) {
-        val r = p._1.compareTo(p._2)
-        if (r != 0) return r
+      for (e <- l.iterator().asScala.zipAll(r.iterator().asScala, null, null)) e match {
+        case (null, _) => return 1
+        case (_, null) => return -1
+        case (el, er) =>
+          val r = el.compareTo(er)
+          if (r != 0) return r
       }
-      lElements.length.compareTo(rElements.length)
+      0
     }
   }
 }
