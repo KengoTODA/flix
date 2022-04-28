@@ -27,7 +27,7 @@ import ca.uwaterloo.flix.util._
 import java.io.{File, PrintWriter}
 import java.nio.file._
 import java.nio.file.attribute.BasicFileAttributes
-import java.util.{Calendar, Comparator, GregorianCalendar}
+import java.util.{Calendar, GregorianCalendar}
 import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
 import scala.collection.mutable
 import scala.util.{Failure, Success, Using}

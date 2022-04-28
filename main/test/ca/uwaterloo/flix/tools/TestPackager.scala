@@ -4,6 +4,9 @@ import ca.uwaterloo.flix.util.Options
 import org.scalatest.FunSuite
 
 import java.nio.file.Files
+import java.util.Date
+import java.util.zip.{ZipEntry, ZipFile}
+import scala.jdk.CollectionConverters.EnumerationHasAsScala
 
 class TestPackager extends FunSuite {
 
@@ -49,6 +52,19 @@ class TestPackager extends FunSuite {
     val packagePath = p.resolve(packageName + ".fpkg")
     assert(Files.exists(packagePath))
     assert(packagePath.getFileName.toString.startsWith(ProjectPrefix))
+  }
+
+  test("build-pkg generates ZIP entries with fixed time") {
+    val p = Files.createTempDirectory(ProjectPrefix)
+    Packager.init(p, DefaultOptions)
+    Packager.buildPkg(p, DefaultOptions)
+
+    val packageName = p.getFileName.toString
+    val packagePath = p.resolve(packageName + ".fpkg")
+    for (e <- new ZipFile(packagePath.toFile).entries().asScala) {
+      val time = new Date(e.getTime)
+      assert(time.formatted("yyyy-MM-dd").equals("1990-02-01"))
+    }
   }
 
   test("benchmark") {
