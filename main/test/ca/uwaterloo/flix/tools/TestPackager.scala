@@ -6,7 +6,7 @@ import org.scalatest.FunSuite
 import java.nio.file.Files
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.zip.{ZipEntry, ZipFile}
+import java.util.zip.ZipFile
 import scala.jdk.CollectionConverters.EnumerationHasAsScala
 
 class TestPackager extends FunSuite {
