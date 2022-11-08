@@ -19,7 +19,7 @@ dependencies {
     implementation 'org.jline:jline:3.5.1' // 4c20d2879ed2bd75a0771ce29e89f6b0
     implementation 'org.json4s:json4s-native_2.13:3.5.5' // 0f2ce59610c538a94bb77f9d7c66b42c
     implementation 'org.ow2.asm:asm:9.2' // 8f184dce9b1bedc675d4a3640d43ddf0
-    implementation 'org.parboiled:parboiled_2.13:2.2.1' // 5f4b60cb30a6bcc0a78efea2b9421945
+    implementation 'org.parboiled:parboiled_2.13:2.4.1' // 5f4b60cb30a6bcc0a78efea2b9421945
     testImplementation 'org.scalatest:scalatest_2.13:3.0.8' // df7a5054753d6185e09c03b1a301d480
     implementation 'org.scala-lang.modules:scala-parallel-collections_2.13:0.2.0' // de4baebed21d6541e675f7dfce971b34
     implementation 'com.github.scopt:scopt_2.13:4.0.1' // 512829d5879da59ac71d581f4b993074
