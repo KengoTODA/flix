@@ -42,7 +42,7 @@ jobs:
               core.exportVariable("master_ref", pull.data.base.ref);
             });
       - name: Check out feature branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: ${{ env.feature_repo }}
           ref: ${{ env.feature_ref }}
