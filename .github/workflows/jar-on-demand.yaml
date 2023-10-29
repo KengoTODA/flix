@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Acknowledge request
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: >
@@ -21,11 +21,14 @@ jobs:
                 body: 'Building JAR...'
               })
       - name: Set up JDK 1.11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
+          distribution: microsoft
           java-version: 1.11
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
       - name: Lookup branches
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: >
@@ -41,19 +44,19 @@ jobs:
               core.exportVariable("master_ref", pull.data.base.ref);
             });
       - name: Check out feature branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: ${{ env.feature_repo }}
           ref: ${{ env.feature_ref }}
       - name: Build
         run: ./gradlew jar
       - name: Upload feature phases results
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: JAR
           path: build/libs/flix.jar
       - name: Comment phase report
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: >
