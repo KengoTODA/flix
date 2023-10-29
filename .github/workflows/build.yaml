@@ -22,7 +22,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
       - name: Build with gradle
-        run: ./gradlew clean compileTestScala --console=plain
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: clean compileTestScala --console=plain
       - name: Run tests with timeout
         timeout-minutes: 20
         run: ./gradlew test --console=plain

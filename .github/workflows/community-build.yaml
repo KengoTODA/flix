@@ -23,7 +23,10 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
       - name: Build Flix JAR
-        run: ./gradlew jar
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: jar
+          cache-read-only: true # 'Compiler Tests' workflow provides wider cache
       - name: Upload Flix JAR
         uses: actions/upload-artifact@v3
         with:

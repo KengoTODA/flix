@@ -47,7 +47,10 @@ jobs:
           repository: ${{ env.feature_repo }}
           ref: ${{ env.feature_ref }}
       - name: Build
-        run: ./gradlew jar
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: jar
+          cache-read-only: true # 'Compiler Tests' workflow provides wider cache
       - name: Upload feature phases results
         uses: actions/upload-artifact@v1
         with:
