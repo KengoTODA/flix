@@ -62,7 +62,7 @@ jobs:
         with:
           repository: ${{ matrix.repo }}
       - name: Download Flix JAR
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: flix-jar
       - name: Build community project
